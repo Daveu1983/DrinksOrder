@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    orders:[
+      {userName:"Dave", order:"beer"},
+      {userName:"Kellie", order:"wine"},
+      {userName:"Neville", order:"Amerertto and coke"}
+    ]
+  }
+  render() {
+    return (
+      <div className="App">
+        {
+          this.state.orders.map((element, index)=>{
+            return <div><p key={index}><b>name: </b>{element.userName} <b>drink: </b>{element.order}</p></div>
+          })
+        }
+      </div>
+    );
+  }
 }
 
 export default App;
