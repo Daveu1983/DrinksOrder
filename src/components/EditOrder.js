@@ -1,22 +1,18 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 
 class EditOrder extends Component {
-    state = {
-        order:this.props.order, userName:this.props.userName, orderId:this.props.orderId
-    }
-
 
 userNameBoxChanged = (event) =>{
-    this.setState({userName: event.target.value})
+    this.props.setUserName(event.target.value)
     }
 
 orderBoxChanged = (event) =>{
-    this.setState({order: event.target.value})
+    this.props.setOrderBox(event.target.value)
 }
 
-
 saveChangesClicked = () => {
-    this.props.saveChangeFunction(this.state.userName, this.state.order, this.state.orderId);
+    this.props.saveChangeFunction();
     } 
 
 cancelChangesClicked = () =>{
@@ -37,4 +33,31 @@ render() {
         )
     }   
 }
-export default EditOrder;
+const mapStateToProps = (state) =>{
+    return {
+      orders:state.orderReducer
+    }
+  }
+  
+  const mapDispatchToProps = (dispatch)=>{
+    return{
+      setUserName: (name) =>{
+        dispatch({
+          type:"SAVE_USERNAME_CHANGE",
+          payload:{
+            userName:name
+          }
+        })
+      },
+      setOrderBox:(order) =>{
+        dispatch({
+          type:"SAVE_ORDER_CHANGE",
+          payload:{
+            order:order
+          }
+        })
+      }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (EditOrder);

@@ -6,7 +6,7 @@ class ShowOrder extends Component {
         this.props.modifyOrderFunction(this.props.orderId);
     }
 
-render() {
+render() {              
     return (
         <div>
           <p><b>name: </b>{this.props.userName} <b>drink: </b>{this.props.order}</p>

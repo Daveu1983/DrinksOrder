@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import './App.css';
 import ShowOrder from "./components/ShowOrder"
 import EditOrder from "./components/EditOrder"
 
 
 class App extends Component {
-  state = {
-    orders:[
-      {userName:"Dave", order:"beer", orderId:1, inEditing:false},
-      {userName:"Kellie", order:"wine", orderId:2, inEditing:false},
-      {userName:"Neville", order:"Amerertto and coke", orderId:3, inEditing:false}
-    ],  
-    orderInEditing:false,
-    orderIdInEditing:0
-  }
+
   modifyOrder = (orderId) =>{
-    if (this.state.orderInEditing === true) {
+    if (this.props.orders.orderInEditing === true) {
       alert("An order is already in editing, please try again later")
     } else {
-      this.setState({ orderInEditing: true, orderIdInEditing: orderId })
+      this.props.setOrderInEditing(orderId)
     }
   }
 
@@ -35,16 +28,16 @@ class App extends Component {
   }
 
   cancelChange = () =>{
-    this.setState({orderInEditing: false, orderIdInEditing:0})
+    this.props.stopEditing()
   }
 
   render() {
     return (
       <div className="App">
         {
-          this.state.orders.map((element, index)=>{
-            if (this.state.orderInEditing) {
-              if (this.state.orderIdInEditing === element.orderId) {
+          this.props.orders.orders.map((element, index)=>{
+            if (this.props.orders.orderInEditing) {
+              if (this.props.orders.orderIdInEditing === element.orderId) {
                 return <EditOrder key={index} orderId={element.orderId} userName={element.userName} 
                         order={element.order} saveChangeFunction={this.saveChange}
                         cancelChangeFunction={this.cancelChange} /> 
@@ -56,9 +49,47 @@ class App extends Component {
               }
           })
         }
+      <div>
+        <p>{this.props.orders.userName} {this.props.orders.order}</p>
       </div>
+      </div>
+
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) =>{
+  return {
+    orders:state.orderReducer
+  }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+  return{
+    setOrder: (order, name) =>{
+      dispatch({
+        type:"CHANGEORDER",
+        payload:{
+          order:order,
+          userName:name
+        }
+      })
+    },
+    setOrderInEditing:(orderId) =>{
+      dispatch({
+        type:"EDITMODE",
+        payload:{
+          orderId:orderId
+        }
+      })
+    },
+    stopEditing:() =>{
+      dispatch({
+        type:"STOPEDITING"
+      })
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (App);
+
