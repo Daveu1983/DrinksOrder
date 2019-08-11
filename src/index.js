@@ -33,7 +33,9 @@ const orderReducer = (state = initialState, action) => {
         state = {
             ...state,
             orderInEditing:true,
-            orderIdInEditing:action.payload.orderId
+            orderIdInEditing:action.payload.orderId,
+            userNameBeingEdited:action.payload.userName,
+            orderBeingEdited:action.payload.order
         }  
         return state;
       case "STOPEDITING":

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class ShowOrder extends Component {
 
     modifyOrderClicked = () => {
-        this.props.modifyOrderFunction(this.props.orderId);
+        this.props.modifyOrderFunction(this.props.orderId, this.props.userName, this.props.order);
     }
 
 render() {              

@@ -7,11 +7,11 @@ import EditOrder from "./components/EditOrder"
 
 class App extends Component {
 
-  modifyOrder = (orderId) =>{
+  modifyOrder = (orderId, userName, order) =>{
     if (this.props.orders.orderInEditing === true) {
       alert("An order is already in editing, please try again later")
     } else {
-      this.props.setOrderInEditing(orderId)
+      this.props.setOrderInEditing(orderId, userName, order)
     }
   }
 
@@ -68,11 +68,13 @@ const mapDispatchToProps = (dispatch)=>{
         }
       })
     },
-    setOrderInEditing:(orderId) =>{
+    setOrderInEditing:(orderId, userName, order) =>{
       dispatch({
         type:"EDITMODE",
         payload:{
-          orderId:orderId
+          orderId:orderId,
+          userName:userName,
+          order:order
         }
       })
     },
