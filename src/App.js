@@ -15,16 +15,9 @@ class App extends Component {
     }
   }
 
-  saveChange = (newUsername, newOrder, orderId) =>{
-    let currentOrders = this.state.orders
-    currentOrders.map((element)=>{
-      if(orderId === element.orderId){
-        element.userName = newUsername
-        element.order = newOrder
-      }
-      return element;
-    })
-    this.setState({orders:currentOrders,orderInEditing: false, orderIdInEditing:0})
+  saveChange = () =>{
+    this.props.setSaveChanges()
+    this.props.resetEditing()
   }
 
   cancelChange = () =>{
@@ -86,6 +79,16 @@ const mapDispatchToProps = (dispatch)=>{
     stopEditing:() =>{
       dispatch({
         type:"STOPEDITING"
+      })
+    },
+    setSaveChanges:() =>{
+      dispatch({
+        type:"SAVE_CHANGES",
+      })
+    },
+    resetEditing:() =>{
+      dispatch({
+        type:"RESET_EDITING"
       })
     }
   }

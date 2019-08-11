@@ -1,3 +1,10 @@
+React/Redux app:-
+- Displays a list of drinks orders
+- Functionality to edit an order
+- Functionality to save edit
+- Functionality to cancel the edit
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

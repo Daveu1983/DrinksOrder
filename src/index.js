@@ -28,37 +28,60 @@ const orderReducer = (state = initialState, action) => {
           order: action.payload.order,
           userName:action.payload.userName
         }
-        break;
+        return state;
       case "EDITMODE":
         state = {
             ...state,
             orderInEditing:true,
             orderIdInEditing:action.payload.orderId
         }  
-        break;
+        return state;
       case "STOPEDITING":
         state = {
             ...state,
             orderInEditing:false,
             orderIdInEditing:0
         }  
-        break;
+        return state;
       case "SAVE_USERNAME_CHANGE":
         state = {
             ...state,
             userNameBeingEdited:action.payload.userName
         }  
-        break;
+        return state;
         case "SAVE_ORDER_CHANGE":
           state = {
             ...state,
             orderBeingEdited:action.payload.order
         }  
-        break;
+        return state;
+        case "SAVE_CHANGES":
+          return {
+            ...state,
+            orders:state.orders.map((element)=>{
+            if(state.orderIdInEditing === element.orderId){
+              return{
+              ...element,
+              userName: state.userNameBeingEdited,
+              order: state.orderBeingEdited
+              }
+            }
+            return element;
+          })
+        }
+        case"RESET_EDITING":
+        state ={
+          ...state,
+          orderInEditing:false,
+          orderIdInEditing:0,
+          userNameBeingEdited:"",
+          orderBeingEdited:""
+        }
+        return state;    
       default:
-        break;
+        return state;
     }
-  return state;
+  
   }
   
 const store = createStore(combineReducers({orderReducer}),
